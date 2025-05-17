@@ -10,32 +10,33 @@ import { CartItem } from "../types/types"
 
 const Home = () => {
 
-  const {data, isLoading, isError} = useLatestProductsQuery("")
+  const { data, isLoading, isError } = useLatestProductsQuery("")
 
   const dispatch = useDispatch()
 
-  const addToCartHandler = (cartItem: CartItem)=>{
-    if(cartItem.stock < 1) return toast.error("Out Of Stock")
+  const addToCartHandler = (cartItem: CartItem) => {
+    if (cartItem.stock < 1) return toast.error("Out Of Stock")
     dispatch(addToCart(cartItem));
     toast.success("Added To Cart");
   }
 
-  if(isError) toast.error("Cannot Fetch The Products")
+  if (isError) toast.error("Cannot Fetch The Products")
   return (
     <div className="home">
-      <section></section>
+      <section>
 
-      <h1>Latest Products
-        <Link to='/search' className="findmore">More</Link>
-      </h1>
-      
-      <main>
-       {
-        isLoading ? (<Skeleton width="80vw"/>): (data?.products.map((i) => (
-          <ProductCard key={i._id} productId={i._id} name={i.name} price={i.price} stock={i.stock} photo={i.photo} handler={addToCartHandler}/>
-        )))
-       }
-      </main>
+        <h1>Latest Products
+          <Link to='/search' className="findmore">More</Link>
+        </h1>
+
+        <main>
+          {
+            isLoading ? (<Skeleton width="80vw" />) : (data?.products.map((i) => (
+              <ProductCard key={i._id} productId={i._id} name={i.name.slice(0, 100)} price={i.price} stock={i.stock} photo={i.photo} handler={addToCartHandler} />
+            )))
+          }
+        </main>
+      </section>
     </div>
   )
 }

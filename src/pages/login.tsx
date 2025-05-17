@@ -29,7 +29,7 @@ const Login = () => {
             })
 
             if("data" in res){
-                toast.success("Success")
+                toast.success(res?.data?.message!)
             }
             else{
                 const error = res.error as FetchBaseQueryError
